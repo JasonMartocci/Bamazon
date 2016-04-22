@@ -17,18 +17,28 @@ connection.connect(function(err) {
 
 connection.query("SELECT * FROM Bamazon.Products", function(err, rows, fields) {
 	if (err) throw err;
+	console.log("\n");
 	console.log("Welcome to Bamazon!");
 	for(var i=0;i<rows.length;i++){
 		console.log(("ItemId: " + rows[i].ItemID) + " " + rows[i].ProductName + " | $" + rows[i].Price.toFixed(2) + " | " + rows[i].StockQuantity + " available");
 	}
+	console.log("\n");
 	prompt.get(['ItemID', 'StockQuantity'], function (err, result, ItemID) {
 		for(var j=0;j<rows.length;j++){
-			if (result.StockQuantity <= rows[j].StockQuantity){
-				console.log(rows[j].StockQuantity - result.StockQuantity);
-				console.log(rows[j].StockQuantity + " they match");
+			if (result.ItemID == rows[j].ItemID){
+				if (result.StockQuantity <= rows[j].StockQuantity){
+					console.log("\n");
+					console.log("Thank You for purchasing: " + rows[j].ProductName);
+					console.log("Total cost of your purchase: " + "$" + (result.StockQuantity*rows[j].Price));
+					// console.log(rows[j].StockQuantity + " they match");
+				}else{
+					console.log(rows[j].StockQuantity + " Insufficient quantity");
+				};
+			}else if (result.ItemID != rows[j].ItemID){
+				// console.log("You did not select available ItemID");
 			}else{
-				console.log(rows[j].StockQuantity + " Insufficient quantity");
-			};
+				// console.log("Broken");
+			}
 		};
 		console.log("\n");
 		console.log('  Product ItemId: ' + result.ItemID);
