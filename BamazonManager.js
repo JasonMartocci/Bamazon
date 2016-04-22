@@ -25,22 +25,34 @@ connection.query("SELECT * FROM Bamazon.Products", function(err, rows, fields) {
 	console.log("3) Add to Inventory");
 	console.log("4) Add New Product");
 	console.log("\n");
-	prompt.get(['ItemID'], function (err, result, ItemID) {
-
-		if (result.ItemID == "1"){
+	prompt.get(['bamazonNav'], function (err, result, bamazonNav) {
+		if (result.bamazonNav == "1"){
 			for(var i=0;i<rows.length;i++){
 				console.log(("ItemId: " + rows[i].ItemID) + " | " + " " + rows[i].ProductName + " | $" + rows[i].Price.toFixed(2) + " | " + rows[i].StockQuantity + " available");
 			}
 			connection.end();				    
-		}else if (result.ItemID == "2"){
+		}else if (result.bamazonNav == "2"){
 			for(var i=0;i<rows.length;i++){
 				if (rows[i].StockQuantity < 20) {
-						console.log(("ItemId: " + rows[i].ItemID) + " | " + " " + rows[i].ProductName + " | $" + rows[i].Price.toFixed(2) + " | " + rows[i].StockQuantity + " available");
+					console.log(("ItemId: " + rows[i].ItemID) + " | " + " " + rows[i].ProductName + " | $" + rows[i].Price.toFixed(2) + " | " + rows[i].StockQuantity + " available");
 				}
 			}
+			connection.end();	    
+		}else if (result.bamazonNav == "3"){
+			prompt.get(['ItemID', 'StockQuantity'], function (err, result, ItemID) {
+				var quantity = result.StockQuantity;
+				console.log(quantity);
+				for(var i=0;i<rows.length;i++){
+					console.log(rows[i].StockQuantity);
+					connection.query("UPDATE Bamazon.Products SET StockQuantity = ? Where ItemID = ?", [(rows[i].StockQuantity + quantity), result.ItemID], function (err, result) {
+						if (err) throw err;
+					});
+				};
+				connection.end();
+			});
+		}else if (result.bamazonNav == "4"){
+			console.log("You Selected 4");
 			connection.end();
-		}else{
-			// console.log("Broken");
 		};
 
 		for(var j=0;j<rows.length;j++){
