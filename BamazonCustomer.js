@@ -28,11 +28,16 @@ connection.query("SELECT * FROM Bamazon.Products", function(err, rows, fields) {
 			if (result.ItemID == rows[j].ItemID){
 				if (result.StockQuantity <= rows[j].StockQuantity){
 					console.log("\n");
-					console.log("Thank You for purchasing: " + rows[j].ProductName);
+					console.log("Thank You for purchasing " + result.StockQuantity + " packages of " + rows[j].ProductName);
 					console.log("Total cost of your purchase: " + "$" + (result.StockQuantity*rows[j].Price));
-					// console.log(rows[j].StockQuantity + " they match");
+					connection.query("UPDATE Bamazon.Products SET StockQuantity = ? Where ItemID = ?", [(rows[j].StockQuantity - result.StockQuantity), result.ItemID], function (err, result) {
+					    if (err) throw err;
+					    connection.end();
+					  });
+					    
 				}else{
 					console.log(rows[j].StockQuantity + " Insufficient quantity");
+					connection.end();
 				};
 			}else if (result.ItemID != rows[j].ItemID){
 				// console.log("You did not select available ItemID");
@@ -50,4 +55,4 @@ connection.query("SELECT * FROM Bamazon.Products", function(err, rows, fields) {
 // }
 // test_prompt();
 
-connection.end();
+// connection.end();
