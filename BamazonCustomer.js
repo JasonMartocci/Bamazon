@@ -24,6 +24,7 @@ connection.query("SELECT * FROM Bamazon.Products", function(err, rows, fields) {
 	prompt.get(['ItemID', 'StockQuantity'], function (err, result, ItemID) {
 		for(var j=0;j<rows.length;j++){
 			if (result.StockQuantity <= rows[j].StockQuantity){
+				console.log(rows[j].StockQuantity - result.StockQuantity);
 				console.log(rows[j].StockQuantity + " they match");
 			}else{
 				console.log(rows[j].StockQuantity + " Insufficient quantity");
