@@ -20,7 +20,7 @@ connection.query("SELECT * FROM Bamazon.Products", function(err, rows, fields) {
 	console.log("\n");
 	console.log("Welcome to Bamazon!");
 	for(var i=0;i<rows.length;i++){
-		console.log(("ItemId: " + rows[i].ItemID) + " " + rows[i].ProductName + " | $" + rows[i].Price.toFixed(2) + " | " + rows[i].StockQuantity + " available");
+		console.log(("ItemId: " + rows[i].ItemID) + " | " + " " + rows[i].ProductName + " | $" + rows[i].Price.toFixed(2) + " | " + rows[i].StockQuantity + " available");
 	}
 	console.log("\n");
 	prompt.get(['ItemID', 'StockQuantity'], function (err, result, ItemID) {
@@ -33,8 +33,7 @@ connection.query("SELECT * FROM Bamazon.Products", function(err, rows, fields) {
 					connection.query("UPDATE Bamazon.Products SET StockQuantity = ? Where ItemID = ?", [(rows[j].StockQuantity - result.StockQuantity), result.ItemID], function (err, result) {
 					    if (err) throw err;
 					    connection.end();
-					  });
-					    
+					  });					    
 				}else{
 					console.log(rows[j].StockQuantity + " Insufficient quantity");
 					connection.end();
@@ -50,9 +49,3 @@ connection.query("SELECT * FROM Bamazon.Products", function(err, rows, fields) {
 		console.log('  Product Quanity: ' + result.StockQuantity);
 	});
 });
-
-// function test_prompt(){
-// }
-// test_prompt();
-
-// connection.end();
