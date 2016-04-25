@@ -33,21 +33,17 @@ connection.query("SELECT * FROM Bamazon.Products", function(err, rows, fields) {
 			connection.end();				    
 		}else if (result.bamazonNav == "2"){
 			for(var i=0;i<rows.length;i++){
-				if (rows[i].StockQuantity < 20) {
+				if (rows[i].StockQuantity < 100) {
 					console.log(("ItemId: " + rows[i].ItemID) + " | " + " " + rows[i].ProductName + " | $" + rows[i].Price + " | " + rows[i].StockQuantity + " available");
 				}
 			}
 			connection.end();	    
 		}else if (result.bamazonNav == "3"){
 			prompt.get(['ItemID', 'StockQuantity'], function (err, result, ItemID) {
-				var quantity = result.StockQuantity;
-				for(var i=0;i<rows.length;i++){
-					console.log(rows[i].StockQuantity);
-					// need to fix math not working.
-					connection.query("UPDATE Bamazon.Products SET StockQuantity = ? Where ItemID = ?", [(rows[i].StockQuantity + quantity), result.ItemID], function (err, result) {
+				var updatedQty = parseInt(result.StockQuantity) + parseInt(rows[result.ItemID - 1].StockQuantity);
+				connection.query("UPDATE Bamazon.Products SET StockQuantity = ? Where ItemID = ?", [updatedQty, result.ItemID], function (err, result) {
 						if (err) throw err;
 					});
-				};
 				connection.end();
 			});
 		}else if (result.bamazonNav == "4"){
@@ -57,21 +53,10 @@ connection.query("SELECT * FROM Bamazon.Products", function(err, rows, fields) {
 					connection.query("INSERT INTO Bamazon.Products SET ProductName = ?, Price = ?, StockQuantity=?", [result.ProductName, result.Price, result.StockQuantity], function (err, result) {
 						if (err) throw err;
 					});
-				// };
-				// connection.end();
 			});
 		};
 
 		for(var j=0;j<rows.length;j++){
 		};
-		// console.log("\n");
-		// console.log('  Product ItemId: ' + result.ItemID);
-		// console.log('  Product Quanity: ' + result.StockQuantity);
 	});
 });
-
-// function test_prompt(){
-// }
-// test_prompt();
-
-// connection.end();
