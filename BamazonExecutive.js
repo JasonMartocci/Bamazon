@@ -15,7 +15,7 @@ connection.connect(function(err) {
   }
 });
 
-connection.query("SELECT * FROM Bamazon.Products", function(err, rows, fields) {
+connection.query("SELECT * FROM Bamazon.Products, Bamazon.Departments", function(err, rows, fields) {
 	if (err) throw err;
 	console.log("\n");
 	console.log("Welcome to Bamazon!");
@@ -25,17 +25,19 @@ connection.query("SELECT * FROM Bamazon.Products", function(err, rows, fields) {
 	console.log("\n");
 	prompt.get(['bamazonNav'], function (err, result, bamazonNav) {
 		if (result.bamazonNav == "1"){
+				console.log("Department Id | Department Name |  Overhead Costs | Total Sales");
 			for(var i=0;i<rows.length;i++){
-				console.log(("ItemId: " + rows[i].ItemID) + " | " + " " + rows[i].ProductName + " | $" + rows[i].Price + " | " + rows[i].StockQuantity + " available");
+				console.log((+ rows[i].DepartmentID) + " | " + " " + rows[i].DepartmentName + " | $" + rows[i].OverHeadCosts + " | $" + rows[i].TotalSales);
 			}
 			connection.end();				    
 		}else if (result.bamazonNav == "2"){
-			for(var i=0;i<rows.length;i++){
-				if (rows[i].StockQuantity < 100) {
-					console.log(("ItemId: " + rows[i].ItemID) + " | " + " " + rows[i].ProductName + " | $" + rows[i].Price + " | " + rows[i].StockQuantity + " available");
-				}
-			}
-			connection.end();	    
+			prompt.get(['DepartmentName'], function (err, result, DepartmentName) {
+				var ProductName = (result.ProductName);
+				console.log(ProductName);
+					connection.query("INSERT INTO Bamazon.Departments SET DepartmentName = ?", [result.DepartmentName], function (err, result) {
+						if (err) throw err;
+					});
+			});    
 		};
 
 		for(var j=0;j<rows.length;j++){

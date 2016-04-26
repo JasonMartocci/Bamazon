@@ -1,6 +1,5 @@
 CREATE TABLE Products (ItemID int AUTO_INCREMENT, ProductName varchar(255), DepartmentName varchar(255), Price int, StockQuantity int, PRIMARY KEY (ItemID));
 
-
 INSERT INTO Products (ProductName, DepartmentName, Price, StockQuantity) VALUES ('Crest', 'Health Care', 2.00, 34);
 INSERT INTO Products (ProductName, DepartmentName, Price, StockQuantity) VALUES ('Total Cereal', 'Groceries', 4.00, 10);
 INSERT INTO Products (ProductName, DepartmentName, Price, StockQuantity) VALUES ('Scope', 'Health Care', 4.40, 23);
@@ -16,6 +15,4 @@ CREATE TABLE Departments (DepartmentID int, DepartmentName varchar(255), OverHea
 
 INSERT INTO Departments (DepartmentID, DepartmentName, OverHeadCosts, TotalSales) VALUES ('0001', 'Health Care', 2, 34);
 
-
 SELECT * FROM Products INNER JOIN Departments ON Products.DepartmentName=Departments.DepartmentName;
-

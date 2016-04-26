@@ -15,7 +15,7 @@ connection.connect(function(err) {
   }
 });
 
-connection.query("SELECT * FROM Bamazon.Products", function(err, rows, fields) {
+connection.query("SELECT * FROM Bamazon.Products, Bamazon.Departments", function(err, rows, fields) {
 	if (err) throw err;
 	console.log("\n");
 	console.log("Welcome to Bamazon!");
@@ -28,7 +28,7 @@ connection.query("SELECT * FROM Bamazon.Products", function(err, rows, fields) {
 	prompt.get(['bamazonNav'], function (err, result, bamazonNav) {
 		if (result.bamazonNav == "1"){
 			for(var i=0;i<rows.length;i++){
-				console.log(("ItemId: " + rows[i].ItemID) + " | " + " " + rows[i].ProductName + " | $" + rows[i].Price + " | " + rows[i].StockQuantity + " available");
+				console.log(("ItemId: " + rows[i].ItemID) + " | " + " " + rows[i].ProductName + " | $" + rows[i].Price + " | " + rows[i].StockQuantity + " available" + " | " + rows[i].DepartmentName);
 			}
 			connection.end();				    
 		}else if (result.bamazonNav == "2"){

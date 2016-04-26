@@ -25,12 +25,13 @@ connection.query("SELECT * FROM Bamazon.Products", function(err, rows, fields) {
 	console.log("\n");
 	prompt.get(['ItemID', 'StockQuantity'], function (err, result, ItemID) {
 		for(var j=0;j<rows.length;j++){
+			var totalSales = result.StockQuantity*rows[j].Price;
 			if (result.ItemID == rows[j].ItemID){
 				if (result.StockQuantity <= rows[j].StockQuantity){
 					console.log("\n");
 					console.log("Thank You for purchasing " + result.StockQuantity + " packages of " + rows[j].ProductName);
-					console.log("Total cost of your purchase: " + "$" + (result.StockQuantity*rows[j].Price));
-					connection.query("UPDATE Bamazon.Products SET StockQuantity = ? Where ItemID = ?", [(rows[j].StockQuantity - result.StockQuantity), result.ItemID], function (err, result) {
+					console.log("Total cost of your purchase: " + "$" + (totalSales));
+					connection.query("UPDATE Bamazon.Products,Bamazon.Departments SET StockQuantity = ?, TotalSales = ? Where ItemID = ?", [(rows[j].StockQuantity - result.StockQuantity),totalSales, result.ItemID], function (err, result) {
 					    if (err) throw err;
 					    connection.end();
 					  });					    
