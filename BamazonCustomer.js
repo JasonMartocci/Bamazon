@@ -45,8 +45,5 @@ connection.query("SELECT * FROM Bamazon.Products", function(err, rows, fields) {
 				// console.log("Broken");
 			}
 		};
-		console.log("\n");
-		console.log('  Product ItemId: ' + result.ItemID);
-		console.log('  Product Quanity: ' + result.StockQuantity);
 	});
 });
