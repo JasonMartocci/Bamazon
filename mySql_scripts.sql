@@ -11,3 +11,11 @@ INSERT INTO Products (ProductName, DepartmentName, Price, StockQuantity) VALUES 
 INSERT INTO Products (ProductName, DepartmentName, Price, StockQuantity) VALUES ('Tuna', 'Seafood', 12.00, 22);
 INSERT INTO Products (ProductName, DepartmentName, Price, StockQuantity) VALUES ('Crabs', 'Seafood', 13.00, 31);
 INSERT INTO Products (ProductName, DepartmentName, Price, StockQuantity) VALUES ('Shrimp', 'Seafood', 16.00, 11);
+
+CREATE TABLE Departments (DepartmentID int, DepartmentName varchar(255), OverHeadCosts int, TotalSales int);
+
+INSERT INTO Departments (DepartmentID, DepartmentName, OverHeadCosts, TotalSales) VALUES ('0001', 'Health Care', 2, 34);
+
+
+SELECT * FROM Products INNER JOIN Departments ON Products.DepartmentName=Departments.DepartmentName;
+
