@@ -14,5 +14,6 @@ INSERT INTO Products (ProductName, DepartmentName, Price, StockQuantity) VALUES 
 CREATE TABLE Departments (DepartmentID int, DepartmentName varchar(255), OverHeadCosts int, TotalSales int);
 
 INSERT INTO Departments (DepartmentID, DepartmentName, OverHeadCosts, TotalSales) VALUES ('0001', 'Health Care', 2, 34);
+INSERT INTO Departments (DepartmentID, DepartmentName, OverHeadCosts, TotalSales) VALUES ('0002', 'Seafood', 19, 994);
 
 SELECT * FROM Products INNER JOIN Departments ON Products.DepartmentName=Departments.DepartmentName;
