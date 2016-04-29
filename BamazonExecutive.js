@@ -39,8 +39,5 @@ connection.query("SELECT * FROM Bamazon.Products, Bamazon.Departments", function
 					});
 			});    
 		};
-
-		for(var j=0;j<rows.length;j++){
-		};
 	});
 });
